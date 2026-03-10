@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mr. G workshops - Consultoría y Formación Especializada</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        academy: {
+                            deep: '#0f172a',    /* Slate 900 */
+                            slate: '#1e293b',   /* Slate 800 */
+                            cyan: '#06b6d4',    /* Cyan 500 */
+                            ice: '#f8fafc',     /* Slate 50 */
+                            silver: '#94a3b8'   /* Slate 400 */
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+                        display: ['Lexend', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&family=Lexend:wght@400;700;900&display=swap');
+        
+        body { background-color: #f8fafc; overflow-x: hidden; }
+        
+        .hero-pattern {
+            background-color: #0f172a;
+            background-image: radial-gradient(circle at 2px 2px, #1e293b 1px, transparent 0);
+            background-size: 40px 40px;
+        }
+
+        .glass-card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .text-gradient {
+            background: linear-gradient(to right, #06b6d4, #22d3ee);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #0891b2 0%, #06b6d4 100%);
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 0 20px rgba(6, 182, 212, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .nav-link {
+            position: relative;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: #06b6d4;
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .category-card {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+        }
+
+        .category-card:hover {
+            transform: translateY(-10px);
+            background: rgba(6, 182, 212, 0.1);
+            border-color: #06b6d4;
+        }
+
+        .workshop-card {
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        #toast {
+            visibility: hidden;
+            min-width: 250px;
+            background-color: #0f172a;
+            color: #fff;
+            text-align: center;
+            border-radius: 8px;
+            padding: 16px;
+            position: fixed;
+            z-index: 100;
+            left: 50%;
+            bottom: 30px;
+            transform: translateX(-50%);
+            border: 1px solid #06b6d4;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+        }
+
+        #toast.show {
+            visibility: visible;
+            animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        }
+
+        @keyframes fadein {
+            from {bottom: 0; opacity: 0;}
+            to {bottom: 30px; opacity: 1;}
+        }
+
+        @keyframes fadeout {
+            from {bottom: 30px; opacity: 1;}
+            to {bottom: 0; opacity: 0;}
+        }
+    </style>
+</head>
+<body class="text-academy-deep font-sans selection:bg-academy-cyan selection:text-white">
+
+    <!-- Toast de Notificación -->
+    <div id="toast">Solicitud enviada correctamente.</div>
+
+    <!-- Navegación -->
+    <nav class="fixed top-0 w-full z-50 bg-academy-deep/90 backdrop-blur-lg border-b border-white/5">
+        <div class="max-w-7xl mx-auto px-4 md:px-6 h-16 md:h-20 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <span class="text-xl md:text-2xl">🎙️</span>
+                <span class="font-display text-lg md:xl font-black text-white tracking-tight uppercase">Mr. G <span class="text-academy-cyan">workshops</span></span>
+            </div>
+            <div class="hidden md:flex gap-8 text-[11px] font-bold uppercase tracking-widest text-academy-silver">
+                <a href="#metodologia" class="nav-link hover:text-white transition-colors">Metodología</a>
+                <a href="#catalogo" class="nav-link hover:text-white transition-colors">Talleres y Casos</a>
+                <a href="#contacto" class="btn-primary px-6 py-2.5 text-white rounded shadow-lg">Inscripción</a>
+            </div>
+            <!-- Botón de contacto rápido para móvil -->
+            <a href="#contacto" class="md:hidden bg-academy-cyan text-academy-deep p-2 rounded-full font-bold text-xs">📩</a>
+        </div>
+    </nav>
+
+    <!-- Sección Hero -->
+    <header class="hero-pattern min-h-screen flex items-center pt-24 pb-12 relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-b from-transparent to-academy-deep/50 pointer-events-none"></div>
+        <div class="max-w-7xl mx-auto px-4 md:px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center relative z-10">
+            <div class="text-center lg:text-left">
+                <div class="inline-flex items-center gap-2 bg-academy-cyan/10 border border-academy-cyan/30 text-academy-cyan px-4 py-1.5 mb-6 md:mb-8 text-[9px] md:text-[10px] font-black uppercase tracking-[0.2em] rounded-full">
+                    <span class="relative flex h-2 w-2">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-academy-cyan opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-academy-cyan"></span>
+                    </span>
+                    Formación Ejecutiva y Familiar
+                </div>
+                <h1 class="text-4xl md:text-5xl lg:text-7xl font-display font-black text-white leading-tight mb-6 md:mb-8 uppercase">
+                    De las Redes <br> <span class="text-gradient underline decoration-white/10 italic">A su Mente.</span>
+                </h1>
+                <p class="text-base md:text-lg lg:text-xl text-academy-silver mb-8 md:mb-12 max-w-xl mx-auto lg:mx-0 font-light leading-relaxed">
+                    Transformamos la comunicación masiva en herramientas de impacto personal y profesional. Una metodología diseñada para optimizar la capacidad cognitiva mediante el rigor docente.
+                </p>
+                <div class="flex flex-col sm:flex-row justify-center lg:justify-start gap-4 md:gap-5">
+                    <a href="#catalogo" class="btn-primary text-white font-bold px-8 md:px-10 py-4 md:py-5 text-center uppercase tracking-widest rounded shadow-2xl text-sm md:text-base">Explorar Catálogo</a>
+                    <a href="#contacto" class="bg-white/5 border border-white/10 text-white px-8 md:px-10 py-4 md:py-5 text-center uppercase tracking-widest font-bold rounded hover:bg-white/10 transition-all backdrop-blur-sm text-sm md:text-base">Contactar Consultoría</a>
+                </div>
+            </div>
+
+            <div class="flex justify-center items-center">
+                <div class="w-full max-w-sm md:max-w-md aspect-square glass-card rounded-2xl flex items-center justify-center relative group overflow-hidden shadow-2xl">
+                    <!-- Integración de imagen de galería -->
+                    <img 
+                        src="https://static.wixstatic.com/media/affc0d_fbdddd264c9b4e44acbcf2addc6b1e59~mv2.png/v1/fill/w_980,h_551,al_c,q_90,usm_0.66_1.00_0.01,enc_avif,quality_auto/affc0d_fbdddd264c9b4e44acbcf2addc6b1e59~mv2.png" 
+                        alt="The Infamous Mr. G"
+                        class="absolute inset-0 w-full h-full object-cover opacity-90 lg:opacity-80 group-hover:scale-105 transition-transform duration-700"
+                        onerror="this.src='https://via.placeholder.com/600x600/1e293b/06b6d4?text=Mr.+G+workshops'"
+                    >
+                    <div class="absolute inset-0 bg-gradient-to-t from-academy-deep via-transparent to-transparent opacity-60"></div>
+                    <div class="absolute -top-4 -right-4 md:-top-6 md:-right-6 bg-academy-cyan p-4 md:p-6 rounded-xl shadow-2xl transform rotate-3 z-20">
+                        <p class="text-3xl md:text-4xl font-black text-white leading-none">20+</p>
+                        <p class="text-[8px] md:text-[9px] font-bold text-academy-deep uppercase tracking-widest">Años de Carrera</p>
+                    </div>
+                    <div class="absolute bottom-0 left-0 w-full p-6 md:p-8 z-10 text-center lg:text-left">
+                        <h2 class="text-xl md:text-2xl font-display font-bold text-white italic">The Infamous Mr. G</h2>
+                        <p class="text-academy-cyan font-bold uppercase tracking-[0.3em] text-[9px] md:text-[10px]">Docente y Consultor Senior</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Metodología -->
+    <section id="metodologia" class="py-20 md:py-32 px-4 md:px-6 bg-academy-ice">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+                <div>
+                    <h3 class="text-academy-cyan font-black uppercase tracking-[0.3em] text-xs mb-4">Ingeniería del Aprendizaje</h3>
+                    <h2 class="text-3xl md:text-4xl lg:text-5xl font-display font-black text-academy-deep mb-6 md:mb-8 uppercase italic tracking-tighter leading-none">¿Por qué este sistema de formación es superior?</h2>
+                    <p class="text-base md:text-lg text-slate-600 leading-relaxed mb-8">
+                        La formación académica tradicional suele ignorar que el cerebro humano requiere estímulos específicos para fijar conceptos. Esta metodología integra la **psicología de la comunicación** con el **humor estratégico** para lograr resultados inmediatos.
+                    </p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-6">
+                        <div class="flex gap-5 p-5 md:p-6 bg-white rounded-xl shadow-sm border border-slate-100">
+                            <div class="w-10 h-10 md:w-12 md:h-12 bg-academy-deep text-academy-cyan flex items-center justify-center rounded-lg flex-shrink-0 font-black text-lg md:text-xl">01</div>
+                            <div>
+                                <h4 class="font-bold text-academy-deep uppercase tracking-tight mb-1 italic text-xs md:text-sm">Anclaje Emocional</h4>
+                                <p class="text-xs md:text-sm text-slate-500">El uso de la narrativa y el humor reduce la resistencia al cambio psicológico.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-5 p-5 md:p-6 bg-white rounded-xl shadow-sm border border-slate-100">
+                            <div class="w-10 h-10 md:w-12 md:h-12 bg-academy-deep text-academy-cyan flex items-center justify-center rounded-lg flex-shrink-0 font-black text-lg md:text-xl">02</div>
+                            <div>
+                                <h4 class="font-bold text-academy-deep uppercase tracking-tight mb-1 italic text-xs md:text-sm">Rigor Dialéctico</h4>
+                                <p class="text-xs md:text-sm text-slate-500">Aplicación del pensamiento crítico para descomponer problemas complejos.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-academy-deep p-8 md:p-16 rounded-3xl shadow-3xl text-white relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-academy-cyan/10 rounded-full -mr-16 -mt-16 blur-3xl"></div>
+                    <div class="relative z-10 text-center">
+                        <h4 class="text-academy-silver font-black uppercase tracking-widest text-[9px] md:text-[10px] mb-8 md:mb-12">La Ecuación de Resultados</h4>
+                        <div class="flex flex-col gap-6 items-center">
+                            <div class="w-full py-5 md:py-6 px-4 border border-white/10 rounded-xl text-center bg-white/5">
+                                <span class="text-2xl md:text-3xl block mb-2">⚡</span>
+                                <p class="text-lg md:text-xl font-bold uppercase tracking-tighter">Estímulo Irreverente</p>
+                                <p class="text-[8px] md:text-[9px] text-academy-silver uppercase mt-1">Captación de Atención</p>
+                            </div>
+                            <span class="text-xl md:text-2xl font-black text-academy-cyan">+</span>
+                            <div class="w-full py-5 md:py-6 px-4 border border-white/10 rounded-xl text-center bg-white/5">
+                                <span class="text-2xl md:text-3xl block mb-2">⚖️</span>
+                                <p class="text-lg md:text-xl font-bold uppercase tracking-tighter">Estructura Académica</p>
+                                <p class="text-[8px] md:text-[9px] text-academy-silver uppercase mt-1">20 Años de Validación</p>
+                            </div>
+                            <span class="text-xl md:text-2xl font-black text-academy-cyan">=</span>
+                            <div class="w-full py-6 md:py-8 px-4 bg-academy-cyan rounded-xl text-center shadow-lg">
+                                <p class="text-academy-deep font-black text-lg md:text-2xl uppercase tracking-widest italic leading-none">CONOCIMIENTO ANCLADO</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Catálogo Interactivo -->
+    <section id="catalogo" class="py-20 md:py-32 px-4 md:px-6 hero-pattern">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-12 md:mb-16">
+                <h3 class="text-academy-cyan font-black uppercase tracking-[0.3em] text-[10px] md:text-xs mb-4 text-center">Catálogo Integral</h3>
+                <h2 class="text-3xl md:text-5xl font-display font-black text-white uppercase italic tracking-tighter text-center leading-tight">Talleres y Casos de Estudio</h2>
+                <p class="text-academy-silver mt-4 max-w-2xl mx-auto text-center text-sm md:text-base" id="catalog-subtitle">Seleccione una categoría para desglosar la oferta académica específica.</p>
+            </div>
+
+            <!-- Vista de Categorías -->
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-4 lg:gap-4" id="categories-view">
+                <div class="category-card glass-card p-6 md:p-8 rounded-2xl flex flex-col items-center text-center group" onclick="showCategory('Padres y Maestros')">
+                    <span class="text-4xl md:text-5xl mb-4 md:mb-6 group-hover:scale-110 transition-transform">👨‍👩‍👧‍👦</span>
+                    <h3 class="text-white font-display font-bold uppercase text-[10px] md:text-xs leading-tight">Padres y <br> Maestros</h3>
+                    <div class="mt-4 md:mt-6 h-1 w-6 md:w-8 bg-academy-cyan rounded"></div>
+                </div>
+                <div class="category-card glass-card p-6 md:p-8 rounded-2xl flex flex-col items-center text-center group" onclick="showCategory('Comunicación')">
+                    <span class="text-4xl md:text-5xl mb-4 md:mb-6 group-hover:scale-110 transition-transform">🗣️</span>
+                    <h3 class="text-white font-display font-bold uppercase text-[10px] md:text-xs leading-tight">Comunicación <br> Profesional</h3>
+                    <div class="mt-4 md:mt-6 h-1 w-6 md:w-8 bg-academy-cyan rounded"></div>
+                </div>
+                <div class="category-card glass-card p-6 md:p-8 rounded-2xl flex flex-col items-center text-center group" onclick="showCategory('Idiomas')">
+                    <span class="text-4xl md:text-5xl mb-4 md:mb-6 group-hover:scale-110 transition-transform">🌐</span>
+                    <h3 class="text-white font-display font-bold uppercase text-[10px] md:text-xs leading-tight">Idiomas y <br> Certificación</h3>
+                    <div class="mt-4 md:mt-6 h-1 w-6 md:w-8 bg-academy-cyan rounded"></div>
+                </div>
+                <div class="category-card glass-card p-6 md:p-8 rounded-2xl flex flex-col items-center text-center group" onclick="showCategory('Contenido en Redes')">
+                    <span class="text-4xl md:text-5xl mb-4 md:mb-6 group-hover:scale-110 transition-transform">📱</span>
+                    <h3 class="text-white font-display font-bold uppercase text-[10px] md:text-xs leading-tight">Contenido <br> en Redes</h3>
+                    <div class="mt-4 md:mt-6 h-1 w-6 md:w-8 bg-academy-cyan rounded"></div>
+                </div>
+                <div class="category-card glass-card p-6 md:p-8 rounded-2xl flex flex-col items-center text-center group border-2 border-academy-cyan/30 bg-academy-cyan/5 col-span-2 md:col-span-1" onclick="showCategory('Casos de Estudio')">
+                    <span class="text-4xl md:text-5xl mb-4 md:mb-6 group-hover:scale-110 transition-transform">📈</span>
+                    <h3 class="text-white font-display font-bold uppercase text-[10px] md:text-xs leading-tight">Casos de <br> Estudio</h3>
+                    <div class="mt-4 md:mt-6 h-1 w-8 md:w-12 bg-white rounded"></div>
+                </div>
+            </div>
+
+            <!-- Vista de Detalles -->
+            <div id="workshops-view" class="hidden">
+                <div class="flex flex-col md:flex-row items-center justify-between mb-8 md:mb-10 pb-6 border-b border-white/10 gap-4">
+                    <button onclick="resetView()" class="flex items-center gap-3 text-academy-cyan font-black uppercase text-[10px] hover:text-white transition-colors">
+                        <span>←</span> Volver a Categorías
+                    </button>
+                    <h4 class="text-white font-display font-bold uppercase italic text-xl md:text-2xl tracking-tighter" id="current-category-title">Categoría</h4>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8" id="workshops-grid">
+                    <!-- JS Populated -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer / Contacto -->
+    <footer id="contacto" class="bg-academy-deep text-white py-16 md:py-24 px-4 md:px-6 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
+            <div>
+                <h3 class="text-2xl md:text-3xl font-display font-black mb-6 md:mb-8 uppercase tracking-tighter leading-none">Inscripción y Consultoría Estratégica</h3>
+                <p class="text-academy-silver text-base md:text-lg mb-8 md:mb-10 max-w-md leading-relaxed font-light">
+                    Solicite detalles sobre la currícula académica o cotizaciones corporativas proporcionando su información básica de contacto.
+                </p>
+                <div class="space-y-4 md:space-y-6">
+                    <div class="flex items-center gap-4 text-academy-cyan">
+                        <span class="text-xl md:text-2xl font-bold">@</span>
+                        <p class="font-bold text-white/80 text-sm md:text-base">infamousmrg@gmail.com</p>
+                    </div>
+                    <div class="flex items-center gap-4 text-academy-cyan">
+                        <span class="text-xl md:text-2xl">🌍</span>
+                        <p class="font-bold text-white/80 text-sm md:text-base">Sede Digital Global | Guadalajara, MX</p>
+                    </div>
+                </div>
+            </div>
+
+            <form class="glass-card p-6 md:p-12 rounded-2xl space-y-5 md:space-y-6" id="inscription-form" onsubmit="handleFormSubmit(event)">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-5">
+                    <div class="space-y-2">
+                        <label class="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-academy-silver">Nombre Completo</label>
+                        <input type="text" id="user-name" required placeholder="Identificación" class="w-full bg-white/5 border border-white/10 p-3 md:p-4 rounded text-white focus:outline-none focus:border-academy-cyan transition-colors text-sm">
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-academy-silver">Email de Contacto</label>
+                        <input type="email" id="user-email" required placeholder="email@ejemplo.com" class="w-full bg-white/5 border border-white/10 p-3 md:p-4 rounded text-white focus:outline-none focus:border-academy-cyan transition-colors text-sm">
+                    </div>
+                </div>
+                <div class="space-y-2">
+                    <label class="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-academy-silver">Mensaje / Taller Seleccionado</label>
+                    <textarea id="user-message" required placeholder="Indique el taller de su interés o realice su consulta directa aquí..." class="w-full bg-white/5 border border-white/10 p-3 md:p-4 rounded text-white h-32 focus:outline-none focus:border-academy-cyan transition-colors resize-none text-sm"></textarea>
+                </div>
+                <button type="submit" class="btn-primary w-full py-4 md:py-5 rounded font-black uppercase tracking-[0.2em] shadow-2xl text-xs md:text-sm">Enviar Solicitud de Información</button>
+            </form>
+        </div>
+        <div class="max-w-7xl mx-auto mt-16 md:mt-24 pt-10 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="flex items-center gap-2">
+                <span class="text-xl">🎙️</span>
+                <span class="font-display font-black text-white text-xs md:text-sm tracking-widest uppercase italic">Mr. G <span class="text-academy-cyan">workshops</span></span>
+            </div>
+            <p class="text-[9px] md:text-[10px] font-bold text-academy-silver uppercase tracking-[0.4em] text-center">© 2024 • Educación bajo Pensamiento Crítico</p>
+        </div>
+    </footer>
+
+    <script>
+        const contentData = [
+            { title: "Crianza Asertiva", tag: "Padres y Maestros", desc: "Gestión de vínculos y autoridad funcional con jóvenes bajo un marco de respeto y límites claros.", level: "Padres y Maestros", icon: "👨‍👩‍👧‍👦", type: "workshop" },
+            { title: "Entendiendo la Adolescencia", tag: "Padres y Maestros", desc: "Psicología aplicada y resolución de conflictos en la etapa de desarrollo crítico.", level: "Especializado", icon: "🧠", type: "workshop" },
+            { title: "Comunicación Asertiva", tag: "Comunicación", desc: "Optimización del mensaje interpersonal mediante la eliminación de ruidos y falacias.", level: "Habilidad Transversal", icon: "🗣️", type: "workshop" },
+            { title: "Comunicación de Negocios", tag: "Comunicación", desc: "Persuasión estratégica y negociación en entornos ejecutivos de alta demanda.", level: "Perfil Corporativo", icon: "💼", type: "workshop" },
+            { title: "Argumentación y Debate", tag: "Comunicación", desc: "Desarrollo de lógica formal y herramientas para la defensa de ideas en foros públicos.", level: "Avanzado", icon: "⚖️", type: "workshop" },
+            { title: "Inglés: Todos los Niveles", tag: "Idiomas", desc: "Formación lingüística desde fundamentos hasta preparación para certificaciones TOEFL/IELTS.", level: "Certificación", icon: "🇬🇧", type: "workshop" },
+            { title: "Francés e Italiano", tag: "Idiomas", desc: "Bases gramaticales y fonética aplicada para el dominio de lenguas romances.", level: "Nivel Inicial", icon: "🇮🇹", type: "workshop" },
+            { title: "Club de Conversación", tag: "Idiomas", desc: "Laboratorio de práctica fluida en inglés para entornos sociales y profesionales.", level: "Práctica Fluida", icon: "🗣️", type: "workshop" },
+            { title: "Stand Up y Monetización", tag: "Contenido en Redes", desc: "Creación de narrativa digital, humor estratégico y profesionalización de marca personal.", level: "Creativo Digital", icon: "🎤", type: "workshop" },
+            { title: "Análisis: Kodak", tag: "Casos de Estudio", desc: "Estudio sobre la rigidez cognitiva y el fallo comunicativo en la transición tecnológica.", level: "Estrategia de Mercado", icon: "📸", type: "case" },
+            { title: "Análisis: Blockbuster", tag: "Casos de Estudio", desc: "Análisis de la miopía empresarial frente a nuevos modelos de consumo digital.", level: "Inovación Fallida", icon: "📼", type: "case" },
+            { title: "Caso: Netflix", tag: "Casos de Estudio", desc: "Cómo la narrativa y el pensamiento disruptivo redefinieron una industria global.", level: "Modelo de Suscripción", icon: "📺", type: "case" },
+            { title: "Caso: Mary Kay", tag: "Casos de Estudio", desc: "Estudio de la comunicación persuasiva y la lealtad de marca en modelos de red.", level: "Venta Directa", icon: "💄", type: "case" },
+            { title: "Análisis: Costco", tag: "Casos de Estudio", desc: "El modelo de membresía y volumen: psicología del consumidor y eficiencia operativa.", level: "Modelo Logístico", icon: "🛒", type: "case" }
+        ];
+
+        function showCategory(categoryName) {
+            const categoriesView = document.getElementById('categories-view');
+            const workshopsView = document.getElementById('workshops-view');
+            const workshopsGrid = document.getElementById('workshops-grid');
+            const titleElement = document.getElementById('current-category-title');
+            const subtitle = document.getElementById('catalog-subtitle');
+
+            titleElement.innerText = categoryName;
+            subtitle.innerText = categoryName === 'Casos de Estudio' ? 'Análisis detallados sobre modelos de negocio y evolución corporativa.' : `Explorando talleres de ${categoryName}`;
+            
+            const filtered = contentData.filter(w => w.tag === categoryName);
+            workshopsGrid.innerHTML = '';
+
+            filtered.forEach(w => {
+                const isCase = w.type === 'case';
+                const card = document.createElement('div');
+                card.className = "workshop-card glass-card p-6 md:p-8 rounded-xl flex flex-col justify-between";
+                card.innerHTML = `
+                    <div>
+                        <div class="flex justify-between items-start mb-6 md:mb-8">
+                            <span class="text-3xl md:text-4xl">${w.icon}</span>
+                            <span class="text-[8px] md:text-[9px] font-black uppercase tracking-[0.2em] border border-academy-cyan/30 text-academy-cyan px-2 py-1 rounded">${w.tag}</span>
+                        </div>
+                        <h3 class="text-lg md:text-xl font-display font-bold text-white mb-2 uppercase italic tracking-tighter leading-none">${w.title}</h3>
+                        <p class="text-academy-cyan font-bold uppercase tracking-widest text-[8px] md:text-[9px] mb-4">${w.level}</p>
+                        <p class="text-xs md:text-sm text-academy-silver leading-relaxed mb-8 md:mb-10">${w.desc}</p>
+                    </div>
+                    <button 
+                        onclick="handleInscription('${w.title}')"
+                        class="w-full py-3 ${isCase ? 'bg-academy-cyan text-academy-deep font-bold' : 'bg-white/5 border border-white/10 text-white'} font-black uppercase text-[9px] md:text-[10px] tracking-widest hover:brightness-110 transition-all rounded"
+                    >
+                        ${isCase ? 'Leer Caso de Estudio' : 'Inscribirme al Taller'}
+                    </button>
+                `;
+                workshopsGrid.appendChild(card);
+            });
+
+            categoriesView.classList.add('hidden');
+            workshopsView.classList.remove('hidden');
+            document.getElementById('catalogo').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function resetView() {
+            const categoriesView = document.getElementById('categories-view');
+            const workshopsView = document.getElementById('workshops-view');
+            const subtitle = document.getElementById('catalog-subtitle');
+            subtitle.innerText = "Seleccione una categoría para desglosar la oferta académica específica.";
+            categoriesView.classList.remove('hidden');
+            workshopsView.classList.add('hidden');
+        }
+
+        function handleInscription(title) {
+            document.getElementById('contacto').scrollIntoView({ behavior: 'smooth' });
+            const messageArea = document.getElementById('user-message');
+            messageArea.value = `Solicitud de información para el taller/caso: "${title}".\n\nPor favor, contactar conmigo para detalles de inscripción y costos.`;
+            const form = document.getElementById('inscription-form');
+            form.classList.add('ring-2', 'ring-academy-cyan');
+            setTimeout(() => { form.classList.remove('ring-2', 'ring-academy-cyan'); }, 1500);
+        }
+
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            const toast = document.getElementById('toast');
+            toast.innerText = "Solicitud recibida. Mr. G se pondrá en contacto pronto.";
+            toast.className = "show";
+            setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 3000);
+            event.target.reset();
+        }
+    </script>
+</body>
+</html>
