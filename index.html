@@ -79,6 +79,17 @@
             width: 100%;
         }
 
+        .category-card {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+        }
+
+        .category-card:hover {
+            transform: translateY(-10px);
+            background: rgba(6, 182, 212, 0.1);
+            border-color: #06b6d4;
+        }
+
         .workshop-card {
             animation: fadeIn 0.5s ease forwards;
         }
@@ -137,11 +148,11 @@
                 <a href="#catalogo" class="nav-link hover:text-white transition-colors">Oferta Académica</a>
                 <a href="#contacto" class="btn-primary px-6 py-2.5 text-white rounded shadow-lg italic">Contacto</a>
             </div>
-            <a href="#contacto" class="md:hidden bg-academy-cyan text-academy-deep p-2 rounded-full font-bold text-xs">📩</a>
+            <a href="#contacto" class="md:hidden bg-academy-cyan text-academy-deep p-2 rounded-full font-bold text-xs shadow-lg">📩</a>
         </div>
     </nav>
 
-    <!-- Sección Hero -->
+    <!-- Hero Section -->
     <header class="hero-pattern min-h-screen flex items-center pt-24 pb-12 relative overflow-hidden">
         <div class="absolute inset-0 bg-gradient-to-b from-transparent to-academy-deep/50 pointer-events-none"></div>
         <div class="max-w-7xl mx-auto px-4 md:px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center relative z-10">
@@ -149,7 +160,7 @@
                 <div class="inline-flex items-center gap-2 bg-academy-cyan/10 border border-academy-cyan/30 text-academy-cyan px-4 py-1.5 mb-6 md:mb-8 text-[9px] md:text-[10px] font-black uppercase tracking-[0.2em] rounded-full">
                     Formación Profesional con Enfoque Crítico
                 </div>
-                <h1 class="text-4xl md:text-5xl lg:text-7xl font-display font-black text-white leading-tight mb-6 md:mb-8 uppercase text-balance">
+                <h1 class="text-4xl md:text-5xl lg:text-7xl font-display font-black text-white leading-tight mb-6 md:mb-8 uppercase">
                     Aprende con <br> <span class="text-gradient underline decoration-white/10 italic">Mr G.</span>
                 </h1>
                 <p class="text-base md:text-lg lg:text-xl text-academy-silver mb-8 md:mb-12 max-w-xl mx-auto lg:mx-0 font-light leading-relaxed text-balance">
@@ -167,6 +178,7 @@
                         src="https://static.wixstatic.com/media/affc0d_fbdddd264c9b4e44acbcf2addc6b1e59~mv2.png/v1/fill/w_980,h_551,al_c,q_90,usm_0.66_1.00_0.01,enc_avif,quality_auto/affc0d_fbdddd264c9b4e44acbcf2addc6b1e59~mv2.png" 
                         alt="The Infamous Mr. G"
                         class="absolute inset-0 w-full h-full object-cover opacity-90 lg:opacity-80 group-hover:scale-105 transition-transform duration-700"
+                        onerror="this.src='https://via.placeholder.com/600x600/1e293b/06b6d4?text=Mr.+G+workshops'"
                     >
                     <div class="absolute inset-0 bg-gradient-to-t from-academy-deep via-transparent to-transparent opacity-60"></div>
                     <div class="absolute -top-4 -right-4 md:-top-6 md:-right-6 bg-academy-cyan p-4 md:p-6 rounded-xl shadow-2xl transform rotate-3 z-20">
@@ -190,7 +202,7 @@
                     <h3 class="text-academy-cyan font-black uppercase tracking-[0.3em] text-xs mb-4">Filosofía de Trabajo</h3>
                     <h2 class="text-3xl md:text-4xl lg:text-5xl font-display font-black text-academy-deep mb-6 md:mb-8 uppercase italic tracking-tighter leading-none text-balance underline decoration-academy-cyan/20">Aprendizaje con aplicaciones reales</h2>
                     <p class="text-base md:text-lg text-slate-600 leading-relaxed mb-8 text-balance">
-                        Otros cursos y talleres pueden tener mucha carga académica pero fallan al enseñar cómo lo vas a aplicar. Aquí te llevarás algo que puedes poner en práctica desde la primera sesión. Con una metodología de **comunicación estratégica** y **estímulo irreverente**, creamos un sistema donde el conocimiento se aterriza para ser útil **desde la primera sesión**.
+                        Otros cursos y talleres pueden tener mucha carga académica pero fallan al enseñar cómo lo vas a aplicar. Aquí te llevarás algo que puedes poner en práctica desde la primera sesión. Con una metodología de **comunicación estratégica** y **estímulo irreverente**, el conocimiento se aterriza para ser útil **desde la primera sesión**.
                     </p>
                     
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-6">
@@ -198,13 +210,13 @@
                             <div class="w-10 h-10 md:w-12 md:h-12 bg-academy-deep text-academy-cyan flex items-center justify-center rounded-lg flex-shrink-0 font-black text-lg md:text-xl italic">01</div>
                             <div>
                                 <h4 class="font-bold text-academy-deep uppercase tracking-tight mb-1 italic text-xs md:text-sm">Estímulo Irreverente</h4>
-                                <p class="text-xs md:text-sm text-slate-500 text-balance">Hackeamos la atención mediante un lenguaje directo y ejemplos sin filtros que conectan de inmediato con la realidad.</p>
+                                <p class="text-xs md:text-sm text-slate-500 text-balance">Gestión de la atención mediante un lenguaje directo y ejemplos sin filtros que conectan de inmediato con la realidad.</p>
                             </div>
                         </div>
                         <div class="flex gap-5 p-5 md:p-6 bg-white rounded-xl shadow-sm border border-slate-100 transform hover:translate-x-2 transition-transform">
                             <div class="w-10 h-10 md:w-12 md:h-12 bg-academy-deep text-academy-cyan flex items-center justify-center rounded-lg flex-shrink-0 font-black text-lg md:text-xl italic">02</div>
                             <div>
-                                <h4 class="font-bold text-academy-deep uppercase tracking-tight mb-1 italic text-xs md:text-sm text-balance text-balance">Rigor sin Sangronería</h4>
+                                <h4 class="font-bold text-academy-deep uppercase tracking-tight mb-1 italic text-xs md:text-sm text-balance">Rigor sin Sangronería</h4>
                                 <p class="text-xs md:text-sm text-slate-500 text-balance">Mantenimiento de los estándares académicos más altos, pero bajados a tierra para que sean comprensibles para cualquiera.</p>
                             </div>
                         </div>
@@ -229,7 +241,7 @@
                             </div>
                             <span class="text-xl md:text-2xl font-black text-academy-cyan italic">=</span>
                             <div class="w-full py-6 md:py-8 px-4 bg-academy-cyan rounded-xl text-center shadow-lg transform scale-105 border-b-4 border-academy-deep/20">
-                                <p class="text-academy-deep font-black text-lg md:text-2xl uppercase tracking-widest italic leading-none">CONOCIMIENTO ATERRIZADO</p>
+                                <p class="text-academy-deep font-black text-lg md:text-2xl uppercase tracking-widest italic leading-none text-balance">CONOCIMIENTO ATERRIZADO</p>
                             </div>
                         </div>
                     </div>
@@ -256,7 +268,7 @@
                 </div>
                 <div class="category-card glass-card p-6 md:p-8 rounded-2xl flex flex-col items-center text-center group" onclick="showCategory('Comunicación')">
                     <span class="text-4xl md:text-5xl mb-4 md:mb-6 group-hover:scale-110 transition-transform">🗣️</span>
-                    <h3 class="text-white font-display font-bold uppercase text-[10px] md:text-xs leading-tight">Comunicación <br> Profesional</h3>
+                    <h3 class="text-white font-display font-bold uppercase text-[10px] md:text-xs leading-tight text-balance">Comunicación <br> Profesional</h3>
                     <div class="mt-4 md:mt-6 h-1 w-6 md:w-8 bg-academy-cyan rounded"></div>
                 </div>
                 <div class="category-card glass-card p-6 md:p-8 rounded-2xl flex flex-col items-center text-center group" onclick="showCategory('Idiomas')">
@@ -284,14 +296,12 @@
                     </button>
                     <h4 class="text-white font-display font-bold uppercase italic text-xl md:text-2xl tracking-tighter text-balance" id="current-category-title">Categoría</h4>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8" id="workshops-grid">
-                    <!-- JS Populated -->
-                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8" id="workshops-grid"></div>
             </div>
         </div>
     </section>
 
-    <!-- Footer / Contacto -->
+    <!-- Footer / Contacto (AHORA FUNCIONAL) -->
     <footer id="contacto" class="bg-academy-deep text-white py-16 md:py-24 px-4 md:px-6 relative overflow-hidden text-balance">
         <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
             <div>
@@ -311,28 +321,36 @@
                 </div>
             </div>
 
-            <form class="glass-card p-6 md:p-12 rounded-2xl space-y-5 md:space-y-6" id="inscription-form" onsubmit="handleFormSubmit(event)">
+            <!-- Formulario conectado a Formspree -->
+            <form 
+                action="https://formspree.io/f/infamousmrg@gmail.com" 
+                method="POST" 
+                class="glass-card p-6 md:p-12 rounded-2xl space-y-5 md:space-y-6" 
+                id="inscription-form"
+            >
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-5">
                     <div class="space-y-2">
                         <label class="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-academy-silver">Nombre Completo</label>
-                        <input type="text" id="user-name" required placeholder="Su nombre" class="w-full bg-white/5 border border-white/10 p-3 md:p-4 rounded text-white focus:outline-none focus:border-academy-cyan transition-colors text-sm">
+                        <input type="text" name="nombre" required placeholder="Su nombre" class="w-full bg-white/5 border border-white/10 p-3 md:p-4 rounded text-white focus:outline-none focus:border-academy-cyan transition-colors text-sm">
                     </div>
                     <div class="space-y-2">
                         <label class="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-academy-silver">Correo Electrónico</label>
-                        <input type="email" id="user-email" required placeholder="email@ejemplo.com" class="w-full bg-white/5 border border-white/10 p-3 md:p-4 rounded text-white focus:outline-none focus:border-academy-cyan transition-colors text-sm">
+                        <input type="email" name="email" required placeholder="email@ejemplo.com" class="w-full bg-white/5 border border-white/10 p-3 md:p-4 rounded text-white focus:outline-none focus:border-academy-cyan transition-colors text-sm">
                     </div>
                 </div>
                 <div class="space-y-2">
                     <label class="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-academy-silver">Detalles de su interés</label>
-                    <textarea id="user-message" required placeholder="Indique el programa de su interés o realice su consulta directa aquí..." class="w-full bg-white/5 border border-white/10 p-4 rounded text-white h-32 focus:outline-none focus:border-academy-cyan transition-colors resize-none text-sm leading-relaxed"></textarea>
+                    <textarea name="mensaje" id="user-message" required placeholder="Indique el programa de su interés..." class="w-full bg-white/5 border border-white/10 p-4 rounded text-white h-32 focus:outline-none focus:border-academy-cyan transition-colors resize-none text-sm leading-relaxed"></textarea>
                 </div>
+                <!-- Honeypot para evitar spam -->
+                <input type="text" name="_gotcha" style="display:none">
                 <button type="submit" class="btn-primary w-full py-4 md:py-5 rounded font-black uppercase tracking-[0.2em] shadow-2xl text-xs md:text-sm">Enviar Solicitud Profesional</button>
             </form>
         </div>
         <div class="max-w-7xl mx-auto mt-16 md:mt-24 pt-10 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
             <div class="flex items-center gap-2">
                 <span class="text-xl">🎙️</span>
-                <span class="font-display font-black text-white text-sm tracking-widest uppercase italic">Mr. G <span class="text-academy-cyan">workshops</span></span>
+                <span class="font-display font-black text-white text-sm tracking-widest uppercase italic text-balance">Mr. G <span class="text-academy-cyan">workshops</span></span>
             </div>
             <p class="text-[9px] md:text-[10px] font-bold text-academy-silver uppercase tracking-[0.4em] text-center">© 2024 • Educación bajo Pensamiento Crítico</p>
         </div>
@@ -375,17 +393,17 @@
                 card.className = "workshop-card glass-card p-6 md:p-8 rounded-xl flex flex-col justify-between transform transition-all hover:border-academy-cyan/50 shadow-lg";
                 card.innerHTML = `
                     <div>
-                        <div class="flex justify-between items-start mb-6 md:mb-8">
+                        <div class="flex justify-between items-start mb-6 md:mb-8 text-balance">
                             <span class="text-3xl md:text-4xl">${w.icon}</span>
                             <span class="text-[8px] md:text-[9px] font-black uppercase tracking-[0.2em] border border-academy-cyan/30 text-academy-cyan px-2 py-1 rounded">${w.tag}</span>
                         </div>
-                        <h3 class="text-lg md:text-xl font-display font-bold text-white mb-2 uppercase italic tracking-tighter leading-none">${w.title}</h3>
-                        <p class="text-academy-cyan font-bold uppercase tracking-widest text-[8px] md:text-[9px] mb-4">${w.level}</p>
+                        <h3 class="text-lg md:text-xl font-display font-bold text-white mb-2 uppercase italic tracking-tighter leading-none text-balance">${w.title}</h3>
+                        <p class="text-academy-cyan font-bold uppercase tracking-widest text-[8px] md:text-[9px] mb-4 text-balance">${w.level}</p>
                         <p class="text-xs md:text-sm text-academy-silver leading-relaxed mb-8 md:mb-10 text-balance">${w.desc}</p>
                     </div>
                     <button 
                         onclick="handleInscription('${w.title}')"
-                        class="w-full py-3 ${isCase ? 'bg-academy-cyan text-academy-deep font-bold' : 'bg-white/5 border border-white/10 text-white'} font-black uppercase text-[9px] md:text-[10px] tracking-widest hover:brightness-110 transition-all rounded shadow-lg"
+                        class="w-full py-3 ${isCase ? 'bg-academy-cyan text-academy-deep font-bold' : 'bg-white/5 border border-white/10 text-white'} font-black uppercase text-[9px] md:text-[10px] tracking-widest hover:brightness-110 transition-all rounded shadow-lg text-balance"
                     >
                         ${isCase ? 'Analizar Caso' : 'Solicitar Inscripción'}
                     </button>
@@ -414,14 +432,6 @@
             const form = document.getElementById('inscription-form');
             form.classList.add('ring-2', 'ring-academy-cyan');
             setTimeout(() => { form.classList.remove('ring-2', 'ring-academy-cyan'); }, 1500);
-        }
-
-        function handleFormSubmit(event) {
-            event.preventDefault();
-            const toast = document.getElementById('toast');
-            toast.className = "show";
-            setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 3000);
-            event.target.reset();
         }
     </script>
 </body>
