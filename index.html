@@ -123,7 +123,6 @@
 </head>
 <body class="text-academy-deep font-sans selection:bg-academy-cyan selection:text-white">
 
-    <!-- Toast de Notificación -->
     <div id="toast">Solicitud recibida. Mr G responderá a la brevedad.</div>
 
     <!-- Navegación -->
@@ -239,7 +238,7 @@
         </div>
     </section>
 
-    <!-- Catálogo Interactivo -->
+    <!-- Catálogo -->
     <section id="catalogo" class="py-20 md:py-32 px-4 md:px-6 hero-pattern">
         <div class="max-w-7xl mx-auto">
             <div class="text-center mb-12 md:mb-16">
@@ -248,7 +247,7 @@
                 <p class="text-academy-silver mt-4 max-w-2xl mx-auto text-center text-sm md:text-base text-balance" id="catalog-subtitle">Seleccione una categoría para desglosar los programas de formación y análisis disponibles.</p>
             </div>
 
-            <!-- Vista de Categorías -->
+            <!-- Categorías -->
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-4 lg:gap-4" id="categories-view">
                 <div class="category-card glass-card p-6 md:p-8 rounded-2xl flex flex-col items-center text-center group" onclick="showCategory('Padres y Maestros')">
                     <span class="text-4xl md:text-5xl mb-4 md:mb-6 group-hover:scale-110 transition-transform">👨‍👩‍👧‍👦</span>
@@ -267,7 +266,7 @@
                 </div>
                 <div class="category-card glass-card p-6 md:p-8 rounded-2xl flex flex-col items-center text-center group" onclick="showCategory('Contenido en Redes')">
                     <span class="text-4xl md:text-5xl mb-4 md:mb-6 group-hover:scale-110 transition-transform">📱</span>
-                    <h3 class="text-white font-display font-bold uppercase text-[10px] md:text-xs leading-tight">Contenido <br> en Redes</h3>
+                    <h3 class="text-white font-display font-bold uppercase text-[10px] md:text-xs leading-tight text-balance">Contenido <br> en Redes</h3>
                     <div class="mt-4 md:mt-6 h-1 w-6 md:w-8 bg-academy-cyan rounded"></div>
                 </div>
                 <div class="category-card glass-card p-6 md:p-8 rounded-2xl flex flex-col items-center text-center group border-2 border-academy-cyan/30 bg-academy-cyan/5 col-span-2 md:col-span-1" onclick="showCategory('Casos de Estudio')">
@@ -277,7 +276,7 @@
                 </div>
             </div>
 
-            <!-- Vista de Detalles -->
+            <!-- Detalles -->
             <div id="workshops-view" class="hidden">
                 <div class="flex flex-col md:flex-row items-center justify-between mb-8 md:mb-10 pb-6 border-b border-white/10 gap-4">
                     <button onclick="resetView()" class="flex items-center gap-3 text-academy-cyan font-black uppercase text-[10px] hover:text-white transition-colors">
@@ -331,7 +330,6 @@
                     <label class="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-academy-silver">Detalles de su interés</label>
                     <textarea name="message" id="user-message" required placeholder="Indique el programa de su interés..." class="w-full bg-white/5 border border-white/10 p-4 rounded text-white h-32 focus:outline-none focus:border-academy-cyan transition-colors resize-none text-sm leading-relaxed"></textarea>
                 </div>
-                <!-- Honeypot para evitar spam -->
                 <input type="text" name="_gotcha" style="display:none">
                 <button type="submit" class="btn-primary w-full py-4 md:py-5 rounded font-black uppercase tracking-[0.2em] shadow-2xl text-xs md:text-sm" id="submit-btn">Enviar Solicitud Profesional</button>
             </form>
@@ -423,8 +421,8 @@
             setTimeout(() => { form.classList.remove('ring-2', 'ring-academy-cyan'); }, 1500);
         }
 
-        // Script de envío AJAX para Formspree
-        const formElement = document.getElementById("inscription-form");
+        // --- SCRIPT DE ENVÍO CORREGIDO ---
+        const form = document.getElementById("inscription-form");
         async function handleFormSubmit(event) {
             event.preventDefault();
             const submitBtn = document.getElementById("submit-btn");
@@ -435,36 +433,36 @@
 
             const data = new FormData(event.target);
             
-            fetch(event.target.action, {
-                method: "POST",
-                body: data,
-                headers: {
-                    'Accept': 'application/json'
-                }
-            }).then(response => {
+            try {
+                const response = await fetch(event.target.action, {
+                    method: "POST",
+                    body: data,
+                    headers: { 'Accept': 'application/json' }
+                });
+
                 if (response.ok) {
                     toast.innerText = "¡Mensaje enviado con éxito! Te responderé pronto.";
                     toast.classList.add("show");
-                    formElement.reset();
-                } else if (response.status === 403) {
-                    toast.innerText = "Falta verificar el email en Formspree. Revisa tu bandeja.";
-                    toast.classList.add("show");
+                    form.reset();
                 } else {
-                    toast.innerText = "Error en el envío. Revisa tu panel de Formspree.";
+                    const errorData = await response.json();
+                    if (errorData.errors) {
+                        toast.innerText = errorData.errors.map(error => error.message).join(", ");
+                    } else {
+                        toast.innerText = "Error. Revisa que el formulario esté ACTIVO en Formspree.";
+                    }
                     toast.classList.add("show");
                 }
-                submitBtn.disabled = false;
-                submitBtn.innerText = "Enviar Solicitud Profesional";
-                setTimeout(() => { toast.classList.remove("show"); }, 3000);
-            }).catch(error => {
+            } catch (error) {
                 toast.innerText = "Error de conexión. Inténtalo más tarde.";
                 toast.classList.add("show");
+            } finally {
                 submitBtn.disabled = false;
                 submitBtn.innerText = "Enviar Solicitud Profesional";
-                setTimeout(() => { toast.classList.remove("show"); }, 3000);
-            });
+                setTimeout(() => { toast.classList.remove("show"); }, 4000);
+            }
         }
-        formElement.addEventListener("submit", handleFormSubmit);
+        form.addEventListener("submit", handleFormSubmit);
 
     </script>
 </body>
